@@ -70,3 +70,5 @@ export * as tasks from './clients/tasks';
 export * as tasksClient from './clients/tasks/client';
 export * as utbmscodes from './clients/utbmscodes';
 export * as utbmscodesClient from './clients/utbmscodes/client';
+
+export * from './aggregate.gen';
