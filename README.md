@@ -10,6 +10,47 @@ This package generates one client module per Actionstep domain under `src/client
 npm install @forsyteco/actionstep-client-typescript
 ```
 
+## OAuth-first quickstart
+
+```ts
+import {
+  client,
+  configureAuth,
+  exchangeAuthorizationCode,
+  getActiontypes,
+  refreshToken,
+} from "@forsyteco/actionstep-client-typescript";
+
+const exchanged = await exchangeAuthorizationCode({
+  tokenUrl: process.env.ACTIONSTEP_TOKEN_URL!,
+  clientId: process.env.ACTIONSTEP_CLIENT_ID!,
+  clientSecret: process.env.ACTIONSTEP_CLIENT_SECRET!,
+  code: authCodeFromCallback,
+  redirectUri: process.env.ACTIONSTEP_REDIRECT_URI!,
+});
+
+const refreshed = await refreshToken({
+  tokenUrl: process.env.ACTIONSTEP_TOKEN_URL!,
+  clientId: process.env.ACTIONSTEP_CLIENT_ID!,
+  clientSecret: process.env.ACTIONSTEP_CLIENT_SECRET!,
+  refreshToken: exchanged.refresh_token!,
+});
+
+configureAuth({
+  client,
+  baseUrl: process.env.ACTIONSTEP_BASE_URL!,
+  auth: refreshed.access_token!,
+});
+
+const actionTypes = await getActiontypes({
+  client,
+  query: { pageSize: "10" },
+  throwOnError: true,
+});
+```
+
+The top-level `client` + auth helpers are the default integration path. Segmented endpoint client exports remain available for advanced/compatibility scenarios.
+
 ## Development
 
 ```bash

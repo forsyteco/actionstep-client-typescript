@@ -1,6 +1,6 @@
 {
   "name": "@forsyteco/actionstep-client-typescript",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "TypeScript Actionstep API client generated with Hey API.",
   "repository": {
     "type": "git",
@@ -44,8 +44,9 @@
     "sync-exports": "tsx scripts/sync-exports.ts",
     "generate": "npm run preflight-specs && openapi-ts && npm run sync-exports",
     "build": "npm run clean && tsc -p tsconfig.build.json",
+    "test": "tsx --test src/**/*.test.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "npm run typecheck",
+    "lint": "npm run typecheck && npm run test",
     "prepack": "npm run lint && npm run build",
     "pack:check": "npm pack --dry-run",
     "publish:public": "npm publish --access public",
