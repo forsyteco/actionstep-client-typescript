@@ -1,6 +1,6 @@
 const BASE_URL = 'https://docs.actionstep.com/downloads';
 
-export const actionstepEndpoints = [
+export const actionstepRemoteEndpoints = [
   'actions',
   'actionbillsettings',
   'actionfolders',
@@ -38,15 +38,34 @@ export const actionstepEndpoints = [
   'utbmscodes',
 ] as const;
 
-export type ActionstepEndpoint = (typeof actionstepEndpoints)[number];
+// Actionstep currently labels these as legacy endpoint docs while they migrate
+// documentation into the new endpoint resources pages.
+export const actionstepLegacyEndpoints = [
+  'actiondocuments',
+  'files',
+  'participanttypes',
+] as const;
+
+export type ActionstepEndpoint =
+  | (typeof actionstepRemoteEndpoints)[number]
+  | (typeof actionstepLegacyEndpoints)[number];
 
 export type ActionstepSpecEntry = {
   endpoint: ActionstepEndpoint;
-  url: string;
+  input: string;
+  source: 'remote' | 'legacy';
 };
 
 export const actionstepSpecManifest: ReadonlyArray<ActionstepSpecEntry> =
-  actionstepEndpoints.map((endpoint) => ({
-    endpoint,
-    url: `${BASE_URL}/${endpoint}.yaml`,
-  }));
+  [
+    ...actionstepRemoteEndpoints.map((endpoint) => ({
+      endpoint,
+      input: `${BASE_URL}/${endpoint}.yaml`,
+      source: 'remote' as const,
+    })),
+    ...actionstepLegacyEndpoints.map((endpoint) => ({
+      endpoint,
+      input: `./openapi/legacy/${endpoint}.yaml`,
+      source: 'legacy' as const,
+    })),
+  ];

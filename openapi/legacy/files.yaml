@@ -1,0 +1,96 @@
+openapi: 3.0.3
+info:
+  title: Actionstep Files
+  version: 1.0.0
+paths:
+  /files:
+    get:
+      operationId: getFiles
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ActionstepListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionstepListResponse'
+    post:
+      operationId: postFiles
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/FileCreatePayload'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileCreatePayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ActionstepDocumentResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionstepDocumentResponse'
+  /files/{id}:
+    get:
+      operationId: getFilesById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: part_number
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ActionstepDocumentResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionstepDocumentResponse'
+components:
+  schemas:
+    FileCreatePayload:
+      type: object
+      additionalProperties: true
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+    ActionstepDocumentResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+    ActionstepListResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true

@@ -10,8 +10,8 @@ const sharedPlugins: NonNullable<UserConfig['plugins']> = [
   '@hey-api/schemas',
 ];
 
-const configs: UserConfig[] = actionstepSpecManifest.map(({ endpoint, url }) => ({
-  input: url,
+const configs: UserConfig[] = actionstepSpecManifest.map(({ endpoint, input }) => ({
+  input,
   output: {
     format: 'prettier',
     path: `src/clients/${endpoint}`,

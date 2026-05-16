@@ -1,0 +1,165 @@
+openapi: 3.0.3
+info:
+  title: Actionstep Action Documents
+  version: 1.0.0
+paths:
+  /actiondocuments:
+    get:
+      operationId: getActiondocuments
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ActionstepListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionstepListResponse'
+    post:
+      operationId: postActiondocuments
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ActionDocumentCreatePayload'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionDocumentCreatePayload'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ActionstepDocumentResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionstepDocumentResponse'
+  /actiondocuments/{id}:
+    get:
+      operationId: getActiondocumentsById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ActionstepDocumentResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionstepDocumentResponse'
+    put:
+      operationId: putActiondocumentsById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ActionDocumentUpdatePayload'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionDocumentUpdatePayload'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ActionstepDocumentResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionstepDocumentResponse'
+    delete:
+      operationId: deleteActiondocumentsById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+components:
+  schemas:
+    ActionDocumentAttributes:
+      type: object
+      additionalProperties: true
+      properties:
+        name:
+          type: string
+        keywords:
+          type: string
+        summary:
+          type: string
+        file:
+          type: string
+        folder:
+          type: string
+        action:
+          type: string
+    ActionDocumentCreatePayload:
+      type: object
+      additionalProperties: true
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+          properties:
+            type:
+              type: string
+            attributes:
+              $ref: '#/components/schemas/ActionDocumentAttributes'
+    ActionDocumentUpdatePayload:
+      type: object
+      additionalProperties: true
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+          properties:
+            id:
+              type: string
+            type:
+              type: string
+            attributes:
+              $ref: '#/components/schemas/ActionDocumentAttributes'
+    ActionstepDocumentResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+    ActionstepListResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true

@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: Actionstep Participant Types
+  version: 1.0.0
+paths:
+  /participanttypes:
+    get:
+      operationId: getParticipanttypes
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ParticipantTypeListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantTypeListResponse'
+components:
+  schemas:
+    ParticipantTypeAttributes:
+      type: object
+      additionalProperties: true
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        description:
+          type: string
+        isBaseParticipantType:
+          type: boolean
+        companyFlag:
+          type: boolean
+        taxNumberAlias:
+          type: string
+    ParticipantTypeListResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              attributes:
+                $ref: '#/components/schemas/ParticipantTypeAttributes'

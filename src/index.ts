@@ -70,5 +70,11 @@ export * as tasks from './clients/tasks';
 export * as tasksClient from './clients/tasks/client';
 export * as utbmscodes from './clients/utbmscodes';
 export * as utbmscodesClient from './clients/utbmscodes/client';
+export * as actiondocuments from './clients/actiondocuments';
+export * as actiondocumentsClient from './clients/actiondocuments/client';
+export * as files from './clients/files';
+export * as filesClient from './clients/files/client';
+export * as participanttypes from './clients/participanttypes';
+export * as participanttypesClient from './clients/participanttypes/client';
 
 export * from './aggregate.gen';

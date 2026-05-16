@@ -1,21 +1,43 @@
+import { readFile } from 'node:fs/promises';
 import { actionstepSpecManifest } from '../openapi/manifest';
 
 type CheckResult = {
   endpoint: string;
-  status: number;
+  status: number | 'legacy';
   ok: boolean;
   contentType: string | null;
 };
 
-async function checkSpec(url: string, endpoint: string): Promise<CheckResult> {
-  const response = await fetch(url, {
+async function checkSpec(entry: (typeof actionstepSpecManifest)[number]): Promise<CheckResult> {
+  if (entry.source === 'legacy') {
+    const source = await readFile(entry.input, 'utf8');
+    const hasOpenApiMarker =
+      source.includes('openapi:') || source.includes('swagger:');
+    const hasPathsMarker = source.includes('paths:');
+    const hasEndpointPath = source.includes(`/${entry.endpoint}`);
+    if (!hasOpenApiMarker || !hasPathsMarker || !hasEndpointPath) {
+      return {
+        endpoint: entry.endpoint,
+        status: 'legacy',
+        ok: false,
+        contentType: null,
+      };
+    }
+    return {
+      endpoint: entry.endpoint,
+      status: 'legacy',
+      ok: true,
+      contentType: 'text/yaml',
+    };
+  }
+
+  const response = await fetch(entry.input, {
     headers: {
       Accept: 'application/yaml, text/yaml, text/plain, */*',
     },
   });
-
   return {
-    endpoint,
+    endpoint: entry.endpoint,
     status: response.status,
     ok: response.ok,
     contentType: response.headers.get('content-type'),
@@ -24,7 +46,7 @@ async function checkSpec(url: string, endpoint: string): Promise<CheckResult> {
 
 async function main() {
   const checks = await Promise.allSettled(
-    actionstepSpecManifest.map(({ endpoint, url }) => checkSpec(url, endpoint)),
+    actionstepSpecManifest.map((entry) => checkSpec(entry)),
   );
 
   let failed = 0;
@@ -39,7 +61,11 @@ async function main() {
     const { endpoint, status, ok, contentType } = item.value;
     if (!ok) {
       failed += 1;
-      console.error(`preflight: ${endpoint} failed with HTTP ${status}`);
+      console.error(
+        status === 'legacy'
+          ? `preflight: ${endpoint} legacy spec failed validation`
+          : `preflight: ${endpoint} failed with HTTP ${status}`,
+      );
       continue;
     }
 

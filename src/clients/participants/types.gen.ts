@@ -292,7 +292,7 @@ export type Participant = {
     /**
      * AML risk profile.
      */
-    amlRisk?: 'Low' | 'Medium' | 'High' | 'Unknown';
+    amlRisk?: 'Low' | 'Medium' | 'High' | 'Unknown' | 'Very Low' | 'Very High';
     /**
      * AML notes.
      */
@@ -591,7 +591,7 @@ export type CreateParticipant = {
     /**
      * AML risk profile.
      */
-    amlRisk?: 'Low' | 'Medium' | 'High' | 'Unknown';
+    amlRisk?: 'Low' | 'Medium' | 'High' | 'Unknown' | 'Very Low' | 'Very High';
     /**
      * AML notes.
      */
@@ -886,7 +886,7 @@ export type UpdateParticipant = {
     /**
      * AML risk profile.
      */
-    amlRisk?: 'Low' | 'Medium' | 'High' | 'Unknown';
+    amlRisk?: 'Low' | 'Medium' | 'High' | 'Unknown' | 'Very Low' | 'Very High';
     /**
      * AML notes.
      */

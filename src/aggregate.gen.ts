@@ -35,6 +35,9 @@ import { client as resthooksClient } from './clients/resthooks/client.gen';
 import { client as timeentriesClient } from './clients/timeentries/client.gen';
 import { client as tasksClient } from './clients/tasks/client.gen';
 import { client as utbmscodesClient } from './clients/utbmscodes/client.gen';
+import { client as actiondocumentsClient } from './clients/actiondocuments/client.gen';
+import { client as filesClient } from './clients/files/client.gen';
+import { client as participanttypesClient } from './clients/participanttypes/client.gen';
 
 const aggregateClients = [
   actionsClient,
@@ -72,6 +75,9 @@ const aggregateClients = [
   timeentriesClient,
   tasksClient,
   utbmscodesClient,
+  actiondocumentsClient,
+  filesClient,
+  participanttypesClient,
 ] as const;
 
 export type ActionstepClientConfig = Parameters<(typeof aggregateClients)[number]['setConfig']>[0];
@@ -123,3 +129,6 @@ export { deleteResthooksById, getResthooks, getResthooksById, postResthooks, put
 export { deleteTimeentriesById, getTimeentries, getTimeentriesById, postTimeentries, putTimeentriesById } from './clients/timeentries';
 export { deleteTasksById, getTasks, getTasksById, postTasks, putTasksById } from './clients/tasks';
 export { deleteUtbmscodesById, getUtbmscodes, getUtbmscodesById, postUtbmscodes, putUtbmscodesById } from './clients/utbmscodes';
+export { deleteActiondocumentsById, getActiondocuments, getActiondocumentsById, postActiondocuments, putActiondocumentsById } from './clients/actiondocuments';
+export { getFiles, getFilesById, postFiles } from './clients/files';
+export { getParticipanttypes } from './clients/participanttypes';

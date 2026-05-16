@@ -390,7 +390,7 @@ export const ParticipantSchema = {
         },
         amlRisk: {
             description: 'AML risk profile.',
-            enum: ['Low', 'Medium', 'High', 'Unknown'],
+            enum: ['Low', 'Medium', 'High', 'Unknown', 'Very Low', 'Very High'],
             default: 'Unknown',
             example: 'Medium',
             type: 'string'
@@ -793,7 +793,7 @@ export const CreateParticipantSchema = {
         },
         amlRisk: {
             description: 'AML risk profile.',
-            enum: ['Low', 'Medium', 'High', 'Unknown'],
+            enum: ['Low', 'Medium', 'High', 'Unknown', 'Very Low', 'Very High'],
             default: 'Unknown',
             example: 'Medium',
             type: 'string'
@@ -1190,7 +1190,7 @@ export const UpdateParticipantSchema = {
         },
         amlRisk: {
             description: 'AML risk profile.',
-            enum: ['Low', 'Medium', 'High', 'Unknown'],
+            enum: ['Low', 'Medium', 'High', 'Unknown', 'Very Low', 'Very High'],
             default: 'Unknown',
             example: 'Medium',
             type: 'string'
