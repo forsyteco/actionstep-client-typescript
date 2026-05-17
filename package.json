@@ -1,6 +1,6 @@
 {
   "name": "@forsyteco/actionstep-client-typescript",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "TypeScript Actionstep API client generated with Hey API.",
   "repository": {
     "type": "git",
