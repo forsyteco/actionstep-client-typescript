@@ -10,14 +10,14 @@ This package generates one client module per Actionstep domain under `src/client
 npm install @forsyteco/actionstep-client-typescript
 ```
 
-## OAuth-first quickstart
+## OAuth-first quickstart (request-scoped)
 
 ```ts
 import {
-  client,
-  configureAuth,
+  createRequestScopedClient,
   exchangeAuthorizationCode,
   getActiontypes,
+  requestWithResponse,
   refreshToken,
 } from "@forsyteco/actionstep-client-typescript";
 
@@ -36,20 +36,28 @@ const refreshed = await refreshToken({
   refreshToken: exchanged.refresh_token!,
 });
 
-configureAuth({
-  client,
+const scoped = createRequestScopedClient({
   baseUrl: process.env.ACTIONSTEP_BASE_URL!,
   auth: refreshed.access_token!,
 });
 
 const actionTypes = await getActiontypes({
-  client,
+  client: scoped.client,
+  headers: scoped.headers,
   query: { pageSize: "10" },
   throwOnError: true,
 });
+
+const uploadResponse = await requestWithResponse(scoped, {
+  method: "POST",
+  url: "/files",
+  body: { name: "example.pdf" },
+});
+
+console.log(uploadResponse.status, uploadResponse.data);
 ```
 
-The top-level `client` + auth helpers are the default integration path. Segmented endpoint client exports remain available for advanced/compatibility scenarios.
+Use `createRequestScopedClient()` per request. This avoids request-path reliance on mutable shared singleton state and keeps auth/baseUrl scoped to the current integration call.
 
 ## Development
 

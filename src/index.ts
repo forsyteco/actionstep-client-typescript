@@ -14,6 +14,17 @@ export {
   type OAuthTokenResponse,
   type RefreshTokenInput,
 } from "./auth";
+export {
+  createRequestScopedClient,
+  requestData,
+  requestFields,
+  requestWithResponse,
+  type CreateRequestScopedClientInput,
+  type RequestScopedClient,
+  type TransportFieldsResponse,
+  type TransportRequestOptions,
+  type TransportResponse,
+} from "./transport";
 
 export * as actions from './clients/actions';
 export * as actionsClient from './clients/actions/client';
